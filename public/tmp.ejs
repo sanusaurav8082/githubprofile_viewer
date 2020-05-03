@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Using the XMLHttpRequest Object</h2>
+
+<div id="demo">
+</div>
+
+<%=
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var tmp = this.responseText;
+      var myobj = JSON.parse(tmp);
+      var message = "";
+      for(x in myobj){
+	message+=x + " : "+myobj[x]+"<br>";
+       }
+      document.getElementById("demo").innerHTML = message;
+    }
+  };
+  xhttp.open("GET", "https://api.github.com/users/mojombo", true);
+  xhttp.send();
+}
+%>
+
+</body>
+</html>

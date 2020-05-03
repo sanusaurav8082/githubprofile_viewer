@@ -1,0 +1,98 @@
+<html>
+<head>
+<link rel="stylesheet" href="css/bootstrap.css"> 
+<title> Post </title>
+<style>
+.label{
+margin:10px;
+}
+#_notd1,_notd2,_notd3,_notd4{
+text-decoration:none;
+}
+#github_profile{
+text-decoration:none;
+color:#013220;
+}
+.panel{
+font-size:20px;
+color:#013220;
+margin-top:50px;
+margin-bottom:auto;
+margin-left:auto;
+margin:right:auto;
+}
+h2{
+margin:30px;
+}
+#name,#location,#company,#email,#blog,#type,#organizations_url{
+font-size:15px;
+}
+p{
+background-color:white;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2 class="text-center"  > <a  href = <%= "https://github.com/"+msg %> id="github_profile"> <%= msg %></a></h2>
+<div class="row" id="hide">
+	<div class="col-md-6"> <a  href = <%= "https://github.com/"+msg %> id="avatar_url" > </a></div>
+	<div class="col-md-6">
+	<div class="row" >
+	<a href=<%= "https://github.com/"+msg+"?tab=repositories" %> id="_notd1"><div class="label label-info"> repos <span class="badge" id="public_repos"></span></div></a>
+	<a href=<%= "https://gist.github.com/"+msg %> id="_notd2"><div class="label label-success"> gists <span class="badge" id="public_gists"></span></div></a>
+        <a href=<%= "https://github.com/"+msg+"?tab=followers" %> id="_notd3"><div class="label label-danger"> followers <span class="badge" id="followers"></span></div></a>
+        <a href=<%= "https://github.com/"+msg+"?tab=following" %> id="_notd4"><div class="label label-warning"> following <span class="badge" id="following"></span></div></a>
+        </div>
+        <div class="row">
+  <div class="panel panel-default" style="background-color:#f4f4f4;">
+  <div class="panel-body">
+    <p>Name : <span id="name"> </span><br></p>
+    <p>Location : <span id="location"> </span><br></p>
+    <p>Email : <span id="email"> </span><br></p>
+    <p>Company : <span id="company"> </span><br></p>
+    <p>Blog : <span id="blog"> </span></p>
+    <p>Type : <span id="type"> </span></p>
+    <p>Org. URL : <span id="organizations_url"> </span></p>
+  </div>
+</div>
+        </div>
+	</div>
+</div>
+<div class="row" id="show">
+</div>
+</div>
+<script>
+function loadXMLDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var tmp = this.responseText;
+      var myobj = JSON.parse(tmp);
+      for(x in myobj){
+        if(myobj[x]=== null){myobj[x]="";}
+	if(x === "avatar_url"){ document.getElementById(x).innerHTML += "<img src="+myobj[x]+">";}
+	if(x === "followers"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "following"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "public_repos"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "public_gists"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "location"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "name"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "company"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "blog"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "email"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "type"){ document.getElementById(x).innerHTML += myobj[x];}
+	if(x === "organizations_url"){ document.getElementById(x).innerHTML += myobj[x];}
+       }
+    }
+    else if(this.readyState==4 && this.status == 404){document.getElementById("hide").style.display="none";
+    document.getElementById("show").innerHTML="<h3 class='text-center'>Error 404</h3><h4 class='text-center' > The user you are looking for is not registerd with github or the page is temporarily unavailable</h4>";}
+
+  };
+  xhttp.open("GET", "https://api.github.com/users/"+<%- JSON.stringify(msg) %>, true);
+  xhttp.send();
+}
+loadXMLDoc();
+</script>
+</body>
+</html>
